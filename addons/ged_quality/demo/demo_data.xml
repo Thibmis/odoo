@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="document1" model="ged_quality.document">
+        <field name="name">Document1</field>
+        <field name="reference">doc1</field>
+        <field name="document_type">mmq</field>
+        <field name="state">draft</field>
+    </record>
+
+    <record id="document2" model="ged_quality.document">
+        <field name="name">Document2</field>
+        <field name="reference">doc2</field>
+        <field name="document_type">procedure</field>
+        <field name="state">in_progress</field>
+    </record>
+
+    <record id="document3" model="ged_quality.document">
+        <field name="name">Document3</field>
+        <field name="reference">doc3</field>
+        <field name="document_type">instruction</field>
+        <field name="state">applicable</field>
+    </record>
+
+    <record id="document4" model="ged_quality.document">
+        <field name="name">Document4</field>
+        <field name="reference">doc4</field>
+        <field name="document_type">method</field>
+        <field name="state">archived</field>
+    </record>
+
+    <record id="document5" model="ged_quality.document">
+        <field name="name">Document5</field>
+        <field name="reference">doc5</field>
+        <field name="document_type">form_record</field>
+        <field name="state">draft</field>
+    </record>
+</odoo>
