@@ -1,6 +1,9 @@
 from odoo import fields, models, api
 from odoo.exceptions import UserError
 
+import logging
+_logger = logging.getLogger(__name__)
+
 class Document(models.Model):
     _name = 'ged_quality.document'
     _description = 'GED Quality Document'
@@ -16,7 +19,7 @@ class Document(models.Model):
             ('form_record', 'Form/Record'),
         ],
         default='mmq',
-        string="Document Type",
+        string='Document Type',
         required=True
     )
     state = fields.Selection([
@@ -26,8 +29,17 @@ class Document(models.Model):
             ('archived', 'Archived'),
         ],
         default='draft',
-        string="State",
+        string='State',
         required=True
+    )
+
+    version_ids = fields.One2many('ged_quality.document.version', 'document_id', string='Versions')
+
+    current_version_id = fields.Many2one(
+        'ged_quality.document.version',
+        compute='_compute_current_version_id',
+        store=True,
+        string='Current Version',
     )
 
     _sql_constraints = [
@@ -43,4 +55,31 @@ class Document(models.Model):
             ], limit=1)
 
             if existing:
-                raise UserError("Reference already exists.")
+                raise UserError('Reference already exists.')
+
+    @api.depends('version_ids.state', 'version_ids.version_number')
+    def _compute_current_version_id(self):
+        for document in self:
+            applicable_versions = document.version_ids.filtered(
+                lambda v: v.state == 'applicable'
+            )
+
+            document.current_version_id = (
+                max(applicable_versions, key=lambda v: v.version_number)
+                if applicable_versions
+                else False
+            )
+
+    def name_get(self):
+        result = []
+        for record in self:
+            version = (
+                record.current_version_id.version_number
+                if record.current_version_id
+                else 0
+            )
+
+            name = f"{record.name} V{version:02d}"
+            result.append((record.id, name))
+
+        return result

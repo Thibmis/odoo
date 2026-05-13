@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="ged_documents_action" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="res_model">ged_quality.document</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="ged_quality_document_view_tree" model="ir.ui.view">
+        <field name="name">ged_quality.document.tree</field>
+        <field name="model">ged_quality.document</field>
+        <field name="arch" type="xml">
+            <tree string="Documents">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="document_type"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ged_quality_document_view_form" model="ir.ui.view">
+        <field name="name">ged_quality.document.form</field>
+        <field name="model">ged_quality.document</field>
+        <field name="arch" type="xml">
+            <form string="Document">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="document_type"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="version_ids"/>
+                    </group>
+                    <group>
+                        <field name="current_version_id" readonly="1" invisible="not current_version_id"/>
+                        <label for="current_version_id" string="Current Version" invisible="current_version_id"/>
+                        <span invisible="current_version_id">No applicable version at the moment</span>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ged_quality_document_view_search" model="ir.ui.view">
+        <field name="name">ged_quality.document.search</field>
+        <field name="model">ged_quality.document</field>
+        <field name="arch" type="xml">
+            <search string="Tests">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="document_type"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="ged_quality_document_version_view_form" model="ir.ui.view">
+        <field name="name">ged_quality.document.version.form</field>
+        <field name="model">ged_quality.document.version</field>
+        <field name="arch" type="xml">
+            <form string="Document version">
+                <header>
+                    <button
+                        name="action_submit_verification"
+                        type="object"
+                        string="Submit for Verification"
+                        class="btn-primary"
+                        invisible="state != 'drafting'"
+                    />
+                    <button
+                        name="action_verify"
+                        type="object"
+                        string="Verify"
+                        class="btn-primary"
+                        invisible="
+                            state != 'pending_verification'
+                            or verifier_id != uid
+                        "
+                    />
+                    <button
+                        name="action_approve_release"
+                        type="object"
+                        string="Approve Release"
+                        class="btn-primary"
+                        invisible="
+                            state != 'pending_approval'
+                            or approver_id != uid
+                        "
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="
+                            drafting,
+                            pending_verification,
+                            pending_approval,
+                            applicable,
+                            archived
+                        "
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="attachment_id"/>
+                    </group>
+                    <group>
+                        <field name="writer_id"/>
+                    </group>
+                    <group>
+                        <field name="verifier_id"/>
+                    </group>
+                    <group>
+                        <field name="approver_id"/>
+                    </group>
+                    <group>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ged_quality_document_version_view_tree" model="ir.ui.view">
+        <field name="name">ged_quality.document.version.tree</field>
+        <field name="model">ged_quality.document.version</field>
+        <field name="arch" type="xml">
+            <tree string="Documents versions">
+                <control>
+                    <create string="New version"/>
+                </control>
+                <field name="version_number"/>
+                <field name="writer_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

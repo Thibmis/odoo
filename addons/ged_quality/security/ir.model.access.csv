@@ -1,4 +1,7 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 
-ged_quality_user,"GED Quality User",model_ged_quality_document,ged_quality.group_ged_user,1,0,0,0
-ged_quality_admin,"GED Quality Admin",model_ged_quality_document,ged_quality.group_ged_admin,1,1,1,1
+ged_quality_access_document_user,"GED Quality Access Document For User",model_ged_quality_document,ged_quality.group_ged_user,1,0,0,0
+ged_quality_access_document_admin,"GED Quality Access Document For Admin",model_ged_quality_document,ged_quality.group_ged_admin,1,1,1,1
+
+ged_quality_access_document_version_user,"GED Quality Access Document Version For User",model_ged_quality_document_version,ged_quality.group_ged_user,1,0,0,0
+ged_quality_access_document_version_admin,"GED Quality Access Document Version For Admin",model_ged_quality_document_version,ged_quality.group_ged_admin,1,1,1,1

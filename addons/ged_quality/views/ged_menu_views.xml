@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <menuitem id="ged_menu_root" name="GED">
+        <menuitem id="ged_menu" name="GED">
+            <menuitem id="ged_menu_action" name="Documents" action="ged_documents_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>
